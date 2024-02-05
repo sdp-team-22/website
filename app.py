@@ -6,6 +6,10 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route('/pages/page2')
+def page2():
+    return render_template('pages/page2.html')
+
 @app.route('/handle_click', methods=['POST'])
 def handle_click():
     print("Button Clicked!")
