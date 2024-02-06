@@ -28,3 +28,5 @@ def handle_input():
 if __name__=='__main__':
     # open file at http://127.0.0.1:5000
     app.run(debug=True)
+    
+# 61000, 62000, 63000
