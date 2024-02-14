@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Solubility Data Management</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
+    </head>
+
+    <body>
+        <header class="important-text">
+            Solubility Data Management
+        </header>
+        <div id="content-selector">
+            <div class="page-button" onclick="showStatisticsPage()">
+                General Website Statistics
+            </div>
+            <div class="page-button" onclick="showInputPage()">
+                Input Data
+            </div>
+            <div class="page-button" onclick="showSearchPage()">
+                Search and View Data
+            </div>
+        </div>
+        <div id="search-page" class="page" style="display:block;">
+        <div class="important-text">
+            Database Search
+        </div>
+        <div class="content">
+            <div id="normal-search-form"></div>
+            <div id="advanced-search-form"></div>
+            <script src="{{url_for('static', filename='assets/js/build-search.js')}}"></script>
+            </div>
+        </div>
+    </body>
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+</html>

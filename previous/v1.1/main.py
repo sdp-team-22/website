@@ -43,6 +43,10 @@ def upload_cancel():
     if 'upload' in request.form:
         return render_template("index.html")
 
+@app.route('/search', methods = ['GET'])
+def display_searching():
+    return render_template("searching.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
 
