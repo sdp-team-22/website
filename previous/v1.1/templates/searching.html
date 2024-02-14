@@ -3,6 +3,28 @@
     <head>
         <title>Solubility Data Management</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 50%;
+            }
+    
+            th, td {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+    
+            th {
+                background-color: darkslategrey;
+            }
+    
+            a {
+                text-decoration: underline;
+                cursor: pointer;
+                color: blue;
+            }
+        </style>
     </head>
 
     <body>
@@ -27,7 +49,13 @@
         <div class="content">
             <div id="normal-search-form"></div>
             <div id="advanced-search-form"></div>
+            <div id="searchResultsContainer"></div>
+
             <script src="{{url_for('static', filename='assets/js/build-search.js')}}"></script>
+            <script>
+                var SearchData = {{ data|tojson|safe }};
+                filterData(SearchData)
+            </script>
             </div>
         </div>
     </body>

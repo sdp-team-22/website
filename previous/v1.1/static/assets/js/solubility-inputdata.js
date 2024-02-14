@@ -107,7 +107,6 @@ function filterSheet(sheetName, jsonDataIn) {
 }
 
 
-
 /**
  * void grabData(jsonDataIn)
  * - Takes jsonData from correct (after filter) sheets
@@ -120,7 +119,6 @@ function grabData(jsonDataIn) {
     //console.log("grabData(jsonDataIn) called");
     data = {}
     rows = jsonDataIn["data"]
-
     for (let rowIndex in rows) {
         let row = rows[rowIndex];
         if (row == null || row == "") {
@@ -131,6 +129,7 @@ function grabData(jsonDataIn) {
                 case "Compound Name":
                     let numbers = row[1].match(/(\d+)/); // gives a list [numbers, numbers]
                     data["name"] = numbers[0]; // we only need one copy of name
+                    
                     break;
                 case "MW":
                     data["mw"] = [row[1], row[2]]; // value, unit
@@ -222,7 +221,7 @@ function grabData(jsonDataIn) {
             }
         }
     }
-    console.log(data);
+    //console.log(data);
     createTable(data);
 }
 

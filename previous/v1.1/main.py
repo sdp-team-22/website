@@ -7,6 +7,7 @@ RECENT_FILENAME = None
 app = Flask(__name__)
 location = "static/temp_files"
 file_uploaded = []
+fake_search = []
 
 @app.route('/')
 def main():
@@ -26,7 +27,8 @@ def success():
         global RECENT_FILENAME
         RECENT_FILENAME = file_path
         file_uploaded.append(f.filename)
-        data_dict = clean_data(file_path)
+        data_dict = clean_data(file_path)[0]
+        fake_search.append(clean_data(file_path)[1])
 
         # Check if data retrieval was successful
         if data_dict is not None:
@@ -45,7 +47,7 @@ def upload_cancel():
 
 @app.route('/search', methods = ['GET'])
 def display_searching():
-    return render_template("searching.html")
+    return render_template("searching.html", data=fake_search)
 
 if __name__ == '__main__':
     app.run(debug=True)

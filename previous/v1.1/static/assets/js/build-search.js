@@ -23,6 +23,9 @@ solventSelectTerms = [
     "has any data on solvent",
 ]
 
+let compound_name = []
+let file_path = []
+
 createNormalSearch();
 createAdvancedSearch();
 
@@ -44,16 +47,74 @@ function createNormalSearch(){
     numberInput.type = "number";
     numberInput.pattern = "[0-9]+";
     numberInput.inputmode = "numeric";
-    numberInput.placeholder = "Project Number";
+    numberInput.placeholder = "Compound Name";
     numberInput.classList.add("light-background");
     normalSearch.appendChild(numberInput);
     // submit button
     const searchButton = document.createElement('input');
     searchButton.type = "button";
     searchButton.value = "Search";
+    searchButton.addEventListener("click", function() {
+        const userInput = numberInput.value;
+        console.log("User input:", userInput);
+        search(userInput);
+    });
     normalSearch.appendChild(searchButton);
     // append form to document
     normalFormDiv.appendChild(normalSearch);
+}
+
+function filterData(data){
+    const compoundData = {
+        name: data[0][1],
+        file: data[0][0]
+    };
+
+    compound_name.push(compoundData);
+}
+
+function search(Input) {
+    const searchResultsContainer = document.getElementById('searchResultsContainer');
+    searchResultsContainer.innerHTML = '';
+
+    const matchingResults = compound_name.filter(element => element.name.includes(Input));
+
+    if (matchingResults.length > 0) {
+        console.log("Matching compounds:", matchingResults);
+
+        // Create a table to display matching compounds
+        const searchResultsTable = document.createElement('table');
+        const thead = searchResultsTable.createTHead();
+        const headerRow = thead.insertRow();
+        const headers = ['Compound Name', 'Download'];
+
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+
+        const tbody = searchResultsTable.createTBody();
+
+        // Populate the table with matching compounds
+        matchingResults.forEach(match => {
+            const row = tbody.insertRow();
+            const nameCell = row.insertCell(0);
+            const downloadCell = row.insertCell(1);
+
+            nameCell.textContent = match.name;
+
+            // Add a download link
+            const downloadLink = document.createElement('a');
+            downloadLink.textContent = 'Download File';
+            downloadLink.href = match.file;
+            downloadLink.download = match.file;
+            downloadCell.appendChild(downloadLink);
+        });
+
+        // Append the table to the container
+        searchResultsContainer.appendChild(searchResultsTable);
+    }
 }
 
 function createAdvancedSearch(){
