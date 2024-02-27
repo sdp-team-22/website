@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from helper import file_excel_to_json1
 from flask_cors import CORS
 import psycopg2
 import logging
@@ -42,6 +43,15 @@ def api_upload():
         return jsonify({'error': 'No files part'})
 
     uploaded_files = request.files.getlist('files')
+
+    data = []
+    for f in uploaded_files:
+        data.append(file_excel_to_json1(f))
+
+    return jsonify(data)
+   
+
+    
 
     filenames = []
     for file in uploaded_files:
