@@ -6,13 +6,12 @@
 - Have a couple frontend options
 - Adding more things to to-do
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-~So, website hosting works. We can host from sdp repository directly too.
-It only works for public repositories though, so maybe we can connect this public repo frontend to private backend? (not sure how to do this yet)~
+
 
 
 ## Running the App with Docker
 
-Follow these steps to run the app using Docker:
+Follow these steps to run the app using Docker while being in the repo's root directory:
 
 1. Build the Docker image:
     ```bash
