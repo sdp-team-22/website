@@ -25,6 +25,6 @@ Follow these steps to run the app using Docker while being in the repo's root di
 
     * This will run the container and expose it to the host's port 8080
 
-[Ref:]([docker build -t angular-fe-app .](https://medium.com/@nadir.inab.dev/dockerizing-your-angular-app-a-quick-guide-00a3ecabe419)https://medium.com/@nadir.inab.dev/dockerizing-your-angular-app-a-quick-guide-00a3ecabe419) 
+[Ref:](https://medium.com/@nadir.inab.dev/dockerizing-your-angular-app-a-quick-guide-00a3ecabe419)https://medium.com/@nadir.inab.dev/dockerizing-your-angular-app-a-quick-guide-00a3ecabe419) 
 
 (although this tutorial didn't work without modifying the dockerfile a bit)
