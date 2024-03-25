@@ -10,35 +10,39 @@ def advanced_search_clean_up(data):
         if len(res) > 5:
             res += " AND"
 
-        if len(tempList) == 1:
-            res += f" project_name = '{tempList[0]}'"
+        if tempList[0] = "Project Number":
+            res += f" project_name = '{tempList[1].lower().strip()}'"
         
         elif tempList[0] == "Molecular Weight" and len(tempList) == 3:
-            res += f" molecular_weight {tempList[1]} '{tempList[2]}'"
+            res += f" molecular_weight {tempList[1].lower().strip()} '{tempList[2].lower().strip()}'"
 
         elif tempList[0] == "Solid Form" and len(tempList) == 2:
-            res += f" solid_form = '{tempList[1]}'"
+            res += f" solid_form = '{tempList[1].lower().strip()}'"
 
         elif tempList[0] == "Melting Temperature" and len(tempList) == 3:
-            res += f" tmelt {tempList[1]} '{tempList[2]}'"
+            res += f" tmelt {tempList[1].lower().strip()} '{tempList[2].lower().strip()}'"
         
         elif tempList[0] == "Fusion Enthalpy" and len(tempList) == 3:
-            res += f" hfus {tempList[1]} '{tempList[2]}'"
+            res += f" hfus {tempList[1].lower().strip()} '{tempList[2].lower().strip()}'"
 
         elif tempList[0] == "Solvent":
-            # find the index of the array 
-            solvent_size = len(tempList) - 1
-            for i in range(solvent_size):
-                #if current element is empty we skipp 
+            if tempList[1] == 'has specific solvent combination':
+                solvent_size = len(tempList) - 1
+                for i in range(1,solvent_size):
+                #if current element is empty we skip
                 if len(tempList[i+1]) == 0:
                     continue
-                #only add and if there is only string other than where
-                #inside of res and if we are not on the first iteration.
+
                 if len(res) > 5 and i != 0:
                     res += " AND"
-                res += f" solvent_{i+1} = '{tempList[i+1].strip()}'"
-    return res
+                
+                res += f" solvent_{i} = '{tempList[i+1].lower().strip()}'"
 
+            elif tempList[1] == 'has any data on solvent':
+                res += f" solvent_1 = '{tempList[2].lower().strip()}' OR solvent_2 = '{tempList[2].lower().strip()}' OR solvent_3 = '{tempList[2].lower().strip()}'"
+
+        return res
+        
 def normal_search_clean_up(data):
     if not data:  
         return "" 

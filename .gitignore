@@ -1,1 +1,4 @@
-.angular/cache/16/2.12
+website/node_modules
+website/.angular
+node_modules
+.angular

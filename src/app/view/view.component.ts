@@ -16,7 +16,9 @@ export class ViewComponent {
     constructor(private searchService: SearchService) { }
     tableData: TableData[] = [];
 
-    // advancedSearchFilterID = 0;
+    
+    advancedSearchFilterID = 1;
+    id_tracker: number[] = [1];
 
     equalityTerms = [
         "=",
@@ -81,7 +83,7 @@ export class ViewComponent {
             const dataToSend = { projectNumber: numberInput.value };
             this.searchService.uploadData(dataToSend).subscribe(response => {
               console.log(response);
-              // this.tableData = this.parseResponseData(response);
+              this.tableData = this.parseResponseData(response);
             });
           });
 
@@ -106,7 +108,9 @@ export class ViewComponent {
         addFilter.type = "button";
         addFilter.value = "Add Filter";
         addFilter.addEventListener('click', () => {
-            this.appendSelect(advancedSearch);
+            this.advancedSearchFilterID = this.id_tracker.length + 1;
+            this.id_tracker.push(this.advancedSearchFilterID);
+            this.appendSelect(advancedSearch, currentData);
         });
         advancedSearch.appendChild(addFilter);
         // create reset filters butotn
@@ -115,8 +119,11 @@ export class ViewComponent {
         resetFilter.value = "Reset";
         resetFilter.addEventListener('click', () => {
             advanced.innerHTML = '';
+
+            this.advancedSearchFilterID = 1;
+            this.id_tracker = [1];
+
             this.createAdvanced(normal, advanced);
-            // this.advancedSearchFilterID = 0;
         });
         advancedSearch.appendChild(resetFilter);
 
@@ -126,8 +133,7 @@ export class ViewComponent {
         searchButton.type = "button";
         searchButton.value = "Search";
         advancedSearch.append(searchButton)
-        
-        let flag = true
+
         
         const currentData: { [key: string]: any[] } = {};
 
@@ -152,19 +158,19 @@ export class ViewComponent {
             }
             const dataToSend = { Data :  currentData};
             this.searchService.uploadData(dataToSend).subscribe(response => {
-              console.log(response);
-              // this.tableData = this.parseResponseData(response);
+                //console.log(response)
+              this.tableData = this.parseResponseData(response);
             });
           });
 
         // form line break
         advancedSearch.appendChild(document.createElement('br'));
         // append initial select
-        this.appendSelect(advancedSearch);
+        this.appendSelect(advancedSearch, currentData);
         advanced.appendChild(advancedSearch);
     }
 
-    appendSelect(search: HTMLFormElement){
+    appendSelect(search: HTMLFormElement, currentData : { [key: string]: any[] }){
         // create selector
         const selectOptions = [
             "Project Number",
@@ -182,9 +188,30 @@ export class ViewComponent {
         // add small delete div
         const deleteDiv = document.createElement('div');
         const deleteButton = document.createElement('button')
-        deleteButton.addEventListener('click', () => {
+        deleteButton.addEventListener("click", () => {
             try {
-                selectParent.parentElement?.removeChild(selectParent);
+              selectParent.parentElement?.removeChild(selectParent);
+              const parentId = parseInt(selectParent.id);
+              console.log(`parentId ${parentId}`);
+              const index = this.id_tracker.findIndex((id) => id === parentId);
+              console.log(index);
+              if (index !== -1) {
+                this.id_tracker.splice(index, 1);
+              }
+      
+              //reassign values
+              for (let i = 0; i < this.id_tracker.length; i++) {
+                const id = this.id_tracker[i];
+                const element = document.getElementById(`${id}`);
+                if (element) {
+                  element.id = `${i + 1}`;
+                }
+                this.id_tracker[i] = i + 1;
+              }
+              console.log(this.id_tracker);
+      
+              //correct filterID
+              this.advancedSearchFilterID = this.id_tracker.length;
             } catch {}
         });
         deleteButton.innerText = 'X';
@@ -200,7 +227,8 @@ export class ViewComponent {
         search.appendChild(selectParent)
         // set id for select
         // selectParent.id = this.advancedSearchFilterID.toString();
-        // currentData[this.advancedSearchFilterID.toString()] = []
+        selectParent.id = this.id_tracker.length.toString();
+        currentData[this.advancedSearchFilterID.toString()] = []
         // this.advancedSearchFilterID++;
         // make selects based on select value
         this.updateSelectOptions(select);
